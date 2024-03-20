@@ -1,0 +1,135 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: black;
+}
+a {
+    text-decoration: none;
+}
+.header {
+    background-color: #093813; /* Header background color */
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    top: 0;
+}
+
+.header .title{
+    color:#c4B581;
+    font-size: 22px;
+    margin-left: 50px;
+    margin-right: 0px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: text-decoration 0.3s;
+}
+
+.header .title.hidden {
+    display: none;
+}
+
+.header .title:hover{
+    color: #776A3F;
+}
+
+.header .circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: #c4B581;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 30px;
+    margin-left: auto;
+    transition: background-color 0.3s;
+}
+
+.header .circle:hover{
+    background-color: #776A3F;
+}
+
+.header .logo {
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+.header .login-icon img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+}
+
+.header .logo img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+}
+
+.event-box{
+    width: calc(1200px*var(--scaling-factor)); 
+    height: calc(265px*var(--scaling-factor)); 
+    background-color: #121212; 
+    border: calc(3px*var(--scaling-factor)) solid #C4B581;  
+    margin-top: calc(80px*var(--scaling-factor));
+    margin-left: auto;
+    margin-right: auto;
+}
+.event-text{
+    color: white;
+    font-weight: bold;
+    margin-left: calc(25px*var(--scaling-factor));
+    margin-top: calc(25px*var(--scaling-factor));
+    font-size: calc(20px*var(--scaling-factor));
+
+}
+.event-description{
+    margin-top: calc(10px*var(--scaling-factor));
+    margin-bottom: calc(80px*var(--scaling-factor));
+}
+.event-date,
+.event-location{
+    margin-top: calc(30px*var(--scaling-factor));
+}
+.apply-box{
+    width: calc(275px*var(--scaling-factor)); /* Set the width of the box */
+    height: calc(80px*var(--scaling-factor)); /* Set the height of the box */
+    background-color: #093813;
+    margin-top: calc(-180px*var(--scaling-factor));
+    margin-left: calc(1220px*var(--scaling-factor));
+    text-align: center;
+    line-height: calc(80px*var(--scaling-factor));
+    color: white;
+    font-size: calc(40px*var(--scaling-factor));
+    font-weight: bold;
+    cursor: pointer;
+    
+}
+.apply-box:hover{
+    background-color: #0f531e;
+}
+
+.event-rectangle .event-name{
+
+
+margin-left:calc(33px*var(--scaling-factor)) ;
+font-family: 'Inter';
+font-style: 'bold';
+font-weight: 700;
+font-size: calc(28px*var(--scaling-factor));
+text-align: left;
+
+color: #FFFFFF;
+}
+
+
+
+
+
+.output-container h1 {
+    color: antiquewhite;
+    align-items: center;
+    align-content: center;
+}

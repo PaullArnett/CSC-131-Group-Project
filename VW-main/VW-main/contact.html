@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Contact Us</title>
+    <link rel="icon" href="images/logo.ico" type="image/x-icon">
+    <script src="userpopout.js" defer></script>
+    <script src="login.js" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        handleLoginState();
+    });
+    </script>
+</head>
+<body>
+ <header class="header">
+
+        <div class="logo"><a href="index.html"><img src="images/image3.png" alt=""></a></div>
+        <a href="apply.html"><h1 class="title">Apply</h1> </a>
+        <a href="contact.html"><h1 class="title"><u>Contact Us</u></h1></a>
+       <div class="right-items"> 
+            <a href="userinfo.html" class="title hidden" id="update"><h1 class="title">Update Information</h1></a>
+            <h1 class="title hidden" id="signout" onclick="signOut()">Sign Out</h1>
+        </div>
+
+        <div class="circle" id="userButton" onclick="checkbutton()">
+            <div class="login-icon">
+                <img src="images/user.png" alt="Login">
+            </div>
+        </div>
+    </header>
+    <div class="contact-container">
+        <img class="contact-full" src="images/PageDisplay.png" alt="">
+        <img class="contact-mini" src="images/contactmini.png" alt="">
+
+    </div>
+    <script src="scalingfactor.js"></script>
+</body>
+</html>

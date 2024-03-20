@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        :root {
+            --base-resolution-width: 1920;
+            --scaling-factor: 1;
+        }
+
+        body {
+            background-image: url('images/loginbackground.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CSS for the centered rectangle */
+        .centered-rectangle {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            aspect-ratio: 521/334.43;
+            height: calc(334px * var(--scaling-factor));
+            background-color: rgba(9, 72, 23, 0.8);
+            fill-opacity: 80;
+            text-align: center;
+            line-height: 100px;
+        }
+
+        .centered-rectangle .logo {
+            width: 22.9731286%;
+            margin-top: 6.5%;
+            position: absolute;
+            top: 13%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .centered-rectangle .login-button {
+            width: 81.53166987%;
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+
+        .centered-rectangle p {
+            color: #C4B581;
+            font-size: calc(24px*var(--scaling-factor));
+            position: fixed;
+            transform: translate(-50%, -50%);
+            text-decoration: underline;
+            white-space: nowrap;
+            top: 88%;
+            left: 84%;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        window.onload = function() {
+            const googleId = localStorage.getItem('googleId'); // Retrieve the stored Google ID
+            if (googleId) {
+                fetchUserData(googleId);
+            }
+        };
+
+        function fetchUserData(googleId) {
+            fetch(`'https://vast-wave-12355-e83778ef23ea.herokuapp.com/user-data?userId=${googleId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Process your user data
+                    // Update the UI based on fetched data
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+    <div class="container">
+        <div class="centered-rectangle">
+            <img class="logo" src="images/logo.png" alt="My Image">
+            <img class="login-button" src="images/loginbutton.png" onclick="signIn()">
+            <a href="index.html"><p cursor: pointer;>Return to Home</p></a>
+        </div>
+    </div>
+</body>
+<script src="login.js"></script>
+<script src="scalingfactor.js"></script>
+</html>

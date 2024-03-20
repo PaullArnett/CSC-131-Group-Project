@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet" href = "/VW/styles.css">
+        <title>Sample Event Creation</title>
+        <script src="/VW/userpopout.js" defer></script>
+        <script src="/VW/login.js" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        handleLoginState();
+    });
+    </script>
+    </head>
+<body>
+   <header class="header">
+        <div class="logo"><a href = "/VW/admin.html"><img src="/VW/images/image3.png" alt=""></div></a>  
+        <a href="manage-events"><h1 class="title">Manage Events</h1> </a>
+        <a href="event-creation.html"><h1 class="title">Create Event</h1></a>
+
+         <div class="right-items"> 
+             <a href="userinfo.html" class="title hidden" id="update"><h1 class="title"></h1></a>
+            <h1 class="title hidden" id="signout" onclick="signOut()">Sign Out</h1>
+        </div>
+
+        <div class="circle" id="userButton" onclick="checkbutton()">
+            <div class="login-icon">
+                <img src="/VW/images/user.png" alt="Login">
+            </div>
+        </div>
+    </header>
+<div class = "apply-page">
+        <div class="output-container" id="output-container">
+            <!-- Content will be printed here -->
+        </div>
+    <script>
+            window.onload=fetchData(); 
+
+
+
+let eventName = "";
+let fullName  = "";
+let eventStart = "";
+let userEmail = ""; 
+
+        
+            async function fetchData() {
+  try {
+    var response = await fetch('https://vast-wave-12355-e83778ef23ea.herokuapp.com/events-data');
+      console.log(response)
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    var contentType = response.headers.get('content-type');
+    
+    if (contentType && contentType.includes('application/json')) {
+      var data = await response.json();
+        console.log(data)
+      displayData(data);
+        
+    } else {
+      throw new Error('Unexpected response format: Not JSON');
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+    
+function displayData(data) {
+       var outputContainer = document.getElementById('output-container');
+  outputContainer.innerHTML = ''; // Clear existing content
+        if (data.length === 0) {
+            outputContainer.innerHTML = '<p>No data available.</p>';
+        } else {
+            let htmlContent = '';
+            data.forEach(item => {
+                console.log(item)
+                    htmlContent +=
+                      `<a href="javascript:void(0);" class="event-link"  onclick="showEventDetails('${item.eventId}')">
+                        <div class="event-rectangle">
+                            <div class="text-wrap">
+                                <p class="text"> <b> Event: </b>${item.eventName}</p>
+                                <p class="text"> <strong>Description: </strong>${item.description}</p>
+                                <p class="text"> <strong>Dates: </strong>${item.startDate} - ${item.endDate}</p>
+                                <p class="text"> <strong>Time: </strong>${item.time}</p>
+                                <p class="text"> <strong>Location: </strong>${item.location}</p>
+                            </div>  
+                        </div>
+                    </a>`;
+            });
+
+            outputContainer.innerHTML = htmlContent;
+        }
+    }
+
+async function showEventDetails(eventId) {
+  try {
+      console.log(eventId)
+    var eventResponse = await fetch(`https://vast-wave-12355-e83778ef23ea.herokuapp.com/event-data?eventId=${eventId}`);
+    if (!eventResponse.ok) {
+      throw new Error(`Error: ${eventResponse.status} - ${eventResponse.statusText}`);
+    }
+    var eventDetails = await eventResponse.json();
+
+    var appResponse = await fetch(`https://vast-wave-12355-e83778ef23ea.herokuapp.com/application-data?eventId=${eventId}`);
+    if (!appResponse.ok) {
+      throw new Error(`Error: ${appResponse.status} - ${appResponse.statusText}`);
+    }
+    var applications = await appResponse.json();
+    console.log('Applications found:', applications);
+
+    displayApplicants(eventDetails, applications);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+async function displayApplicants(eventDetails, applications) {
+  var outputContainer = document.getElementById('output-container');
+  console.log(eventDetails);
+  let htmlContent = `
+    <h2 class="event-title">
+      Event: ${eventDetails.eventName}
+    </h2>
+    <div class="event-title-underline"></div>
+    <div class="return-arrow-container">
+      <img class="return-arrow" onclick='fetchData()' src="/VW/images/return-arrow.png" alt="">
+    </div>`;
+
+  async function fetchUserData(userId) {
+    try {
+      var response = await fetch(`https://vast-wave-12355-e83778ef23ea.herokuapp.com/user-data?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+
+      var userinfo = await response.json();
+      console.log('userinfo found:', userinfo);
+      return userinfo;
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return null; // Handle the error as needed
+    }
+  }
+
+  var userPromises = applications
+    .filter(app => app.userId)
+    .map(app => fetchUserData(app.userId));
+
+  var userDataArray = await Promise.all(userPromises);
+
+  userDataArray.forEach((userinfo, index) => {
+    if (userinfo) {
+        console.log(userinfo)
+      var uniqueId = Math.random().toString(16).slice(2);
+
+      var applicationStatus = applications[index].status;
+      var borderColor = 'defaultBorderColor'; // Default color
+      if (applicationStatus === 'accepted') {
+        borderColor = '#093813'; // Green for accepted
+      } else if (applicationStatus === 'denied') {
+        borderColor = '#861414'; // Red for denied
+      }
+
+
+    eventName = eventDetails.eventName; 
+    fullName  = userinfo.name;
+    eventStart = eventDetails.startDate;
+    userEmail  = userinfo.email; 
+
+    var subjectAccept = "UPDATE: Volunteer application";
+    var bodyAccept = `UPDATE: The volunteer application for ${eventName} been accepted by LiHelp!`;
+    var facultybodyAccept = `UPDATE: The volunteer application for ${fullName} has been accepted. For documentation purposes, the event will occur ${eventStart}.`;
+
+          var bodyDeclined = `UPDATE: Your volunteer application for ${fullName} has been denied. Feel free to apply for future events.`;
+
+
+      htmlContent += `
+        <div class="user-rectangle" id="rectangle-border" data-rectangle-id="${uniqueId}" style="border-color: ${borderColor};">                        
+          <img src="/VW/images/usericon.png" alt="" class="usericon">
+          <p class="text"><b> Name: </b>${userinfo.name}<br><b> Phone: </b>${userinfo.phone}<br><b> Email: </b>${userinfo.email}<br><b> DOB: </b>${userinfo.bday}</p>
+          <p class="text"><b> Street: </b>${userinfo.address}<br><b> City: </b>${userinfo.city}<br><b> Zipcode: </b>${userinfo.zipcode}</p>
+          <p class="text"><b> Emergency Contact: </b>${userinfo.ename}<br><b> Emergency Number: </b>${userinfo.enumber}</p>
+        </div>
+        <div class="accept-box" data-event-id='${eventDetails.eventId}' data-user-id='${userinfo.userId}' data-rectangle-id='${uniqueId}' onclick='approved(event); window.location = "mailto:${userEmail}?cc=csusVMS@sacstate.edu&subject=${subjectAccept}&body=${bodyAccept}";'>Accept</div>
+        <div class="deny-box" data-event-id='${eventDetails.eventId}' data-user-id='${userinfo.userId}' data-rectangle-id='${uniqueId}' onclick='denied(event); window.location = "mailto:${userEmail}?cc=csusVMS@sacstate.edu&subject=${subjectAccept}&body=${bodyDeclined}";'>Deny</div>
+      </div>`;
+    }
+  });
+
+  outputContainer.innerHTML = htmlContent;
+}
+
+        async function approved(event) {          
+                var rectangleId = event.target.getAttribute('data-rectangle-id');
+                var rectangle = document.querySelector(`.user-rectangle[data-rectangle-id="${rectangleId}"]`);
+                console.log(rectangle)
+                var eventId = event.target.getAttribute('data-event-id');
+                var userId = event.target.getAttribute('data-user-id');
+                try {
+        var response = await fetch('https://vast-wave-12355-e83778ef23ea.herokuapp.com/accept', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://jdelemos.github.io'
+            },
+            body: JSON.stringify({ userId: userId, eventId: eventId })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        var result = await response.text();
+        console.log(result);
+        // Handle the response here (e.g., show a success message)
+    } catch (error) {
+        console.error('Error:', error);
+        // Handle the error here (e.g., show an error message)
+    }
+                if (rectangle) {
+        rectangle.style.borderColor = '#093813'; // or any color you prefer
+                    console.log("is a rectangle")
+    }else{
+      console.log("is not a rectangle")
+    }
+                
+            }
+
+        async function denied(event) {          
+                var rectangleId = event.target.getAttribute('data-rectangle-id');
+                var rectangle = document.querySelector(`.user-rectangle[data-rectangle-id="${rectangleId}"]`);
+                console.log(rectangle)
+                var eventId = event.target.getAttribute('data-event-id');
+                console.log(eventId)
+                var userId = event.target.getAttribute('data-user-id');
+                try {
+        var response = await fetch('https://vast-wave-12355-e83778ef23ea.herokuapp.com/deny', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'https://jdelemos.github.io'
+            },
+            body: JSON.stringify({ userId: userId, eventId: eventId })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        var result = await response.text();
+        console.log(result);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+                if (rectangle) {
+        rectangle.style.borderColor = '#861414'; // or any color you prefer
+                    console.log("is a rectangle")
+    }else{
+      console.log("is not a rectangle")
+    }
+                
+            }
+            
+    </script>        
+</div>
+<script src="/VW/scalingfactor.js"></script>
+
+</body>
+</html>

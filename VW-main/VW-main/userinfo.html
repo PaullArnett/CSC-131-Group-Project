@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "styles.css">
+    <title>Account Information</title>
+    <script src="userpopout.js" defer></script>
+    <script src="login.js"></script>
+
+
+
+</head>
+<body onload="setMinDate()">
+    <header class="header">
+    <div class="logo"><a href = "index"><img src="images/image3.png" alt=""></div></a>
+    <a href="apply.html"><h1 class="title">Apply</h1> </a>
+    <a href="contact.html"><h1 class="title">Contact Us</h1></a>
+    <div class="right-items"> 
+            <a href="userinfo.html" class="title hidden" id="update"><h1 class="title"><u>Update Information</u></h1></a>
+            <h1 class="title hidden" id="signout" onclick="signOut()">Sign Out</h1>
+        </div>
+    <div class="circle" id="userButton" onclick="checkbutton()">
+        <div class="login-icon">
+            <img src="images/user.png" alt="Login">
+        </div>
+    </div>
+</header>
+  <div class="forms">
+    <div class="form-container">
+  <form id = "myForm">
+    <div class = "profileImage" style = "margin-left: calc(810px*var(--scaling-factor));">
+    <img src="images\EditedProfile.png">
+    </div>
+      
+    <div class = "name">
+        <input type = "text"
+         class="nameO" 
+         name = "firstName" 
+         id = "name" 
+         maxlength = "20" 
+         placeholder = "First and Last Name" 
+         style = "margin-left: calc(221px*var(--scaling-factor)); width: calc(418px*var(--scaling-factor));"
+         required>
+        <label for ="First and Last name" 
+          id ="nameLabel" 
+          style = "display: none; color: red; transform: translate(calc(-352px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+    </div>
+    <div class = "email">
+        <input type = "email"
+         class ="emailO" 
+         name = "email" 
+         id = "email"
+         maxlength = "38" 
+         placeholder = "Email" 
+         style = "margin-left: calc(698px*var(--scaling-factor)); width: calc(524px*var(--scaling-factor));" 
+         required> 
+               <label for ="Email" 
+                 id ="emailLabel" 
+                 style = "display: none;color: red; transform: translate(calc(-396px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+        </div>
+    <div class = "phone">
+        <input type = "text" 
+        class ="phoneO" 
+        name = "phoneNumber"
+         id = "phone" 
+         maxlength = "10" 
+         placeholder = "Phone Number"
+          style = "margin-left: calc(1281px*var(--scaling-factor)); width: calc(367px*var(--scaling-factor));" 
+          required>
+                <label for ="Phone" 
+                  id ="phoneLabel" 
+                  style = "display: none;white-space: nowrap; color: red; transform: translate(calc(-322px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+          </div>
+    <div class = "address">
+        <input type = "text" 
+        class ="addressO" 
+        name = "streetAddress" 
+        id = "address" 
+        maxlength = "30" 
+        placeholder = "Street Address" 
+        style = "margin-left: calc(221px*var(--scaling-factor)); width: calc(820px*var(--scaling-factor));" 
+        required>
+              <label for ="Address" 
+                id ="addressLabel" 
+                style = "display: none;color: red; transform: translate(calc(-553px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+          </div>
+    <div class = "city">
+        <input type = "text" 
+        class ="cityO" 
+        name = "city" 
+        id = "city" 
+        maxlength = "15" 
+        placeholder = "City" 
+        style = "margin-left: calc(1101px*var(--scaling-factor)); width: calc(339px*var(--scaling-factor));"
+        required>
+                        <label for ="City" 
+          id ="cityLabel" 
+          style = "display: none;color: red; transform: translate(calc(-295px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+    </div>
+          <div class = "zipcode">
+        <input type = "text" 
+        class ="zipcodeO" 
+        name = "zipcode" 
+        id = "zipcode" 
+        maxlength = "5" 
+        placeholder = "Zip Code" 
+        style = "margin-left: calc(1499px*var(--scaling-factor)); width: calc(149px*var(--scaling-factor));" 
+        required>
+                    <label for ="Zipcode" 
+                      id ="zipcodeLabel" 
+                      style = "display: none;white-space: nowrap;color: red; transform: translate(calc(-194px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+          </div>
+    <div class = "ename">
+        <input type = "text" 
+        class ="enameO" 
+        name = "emergencyContact" 
+        id = "ename" 
+        maxlength = "20" 
+        placeholder = "Emergency Contact" 
+        style = "margin-left: calc(221px*var(--scaling-factor)); width: calc(418px*var(--scaling-factor));"
+        required>
+              <label for ="Emergency Contact" 
+                id ="emergencynameLabel" 
+                style = "display: none;color: red; transform: translate(calc(-332px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+          </div>
+    <div class = "enumber">
+        <input type = "text" 
+        class ="enumberO" 
+        name = "emrgencyNumber"
+         id = "ephone"
+          maxlength = "10" 
+          placeholder = "Emergency Number" 
+          style = "margin-left: calc(698px*var(--scaling-factor)); width: calc(367px*var(--scaling-factor));" 
+          required>
+                <label for ="Emergency Phone Number" 
+                  id ="enumberLabel" 
+                  style = "display: none;color: red; transform: translate(calc(-307px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+          </div>
+    <div class = "bday">
+        <input type = "text" 
+        class = "bdayO" 
+        max = "" 
+        onfocus = "(this.type ='date')"
+        name = "birthday" 
+        id = "bday" 
+        placeholder = "Birthday" 
+        style = "margin-left: calc(1124px*var(--scaling-factor)); width: calc(524px*var(--scaling-factor));" 
+        required>
+              <label for ="Birthday" 
+                id ="bdayLabel" 
+                style = "display: none;white-space: nowrap;color: red; transform: translate(calc(-414px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+    </div>
+        <div class = "button">
+        <input type = "image" 
+        src = "images\EditedSubmitButton.png" 
+        border-style="none" 
+        class = "buttonO" 
+        id = "submit"
+         alt = "submit" 
+         style = "margin-left: calc(752px*var(--scaling-factor));">
+    </div>
+      </form>
+    </div>
+
+          <script src = "form.js"></script>
+   <script src = "scalingfactor.js"></script>
+    </div>
+    </body>
+  </html> 

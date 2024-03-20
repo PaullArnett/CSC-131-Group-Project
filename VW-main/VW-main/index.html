@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Li Help</title>
+    <link rel="icon" href="images/logo.ico" type="image/x-icon">
+    <script src="userpopout.js" defer></script>
+    <script src="login.js" defer></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        handleLoginState();
+    });
+    </script>
+</head>
+<body>
+    <header class="header">
+
+        <div class="logo"><img src="images/image3.png" alt=""></div>   
+        <a href="apply.html" id="applyLink"><h1 class="title">Apply</h1> </a>
+        <a href="contact.html"><h1 class="title">Contact Us</h1></a>
+       
+
+         <div class="right-items"> 
+            <a href="userinfo.html" class="title hidden" id="update"><h1 class="title">Update Information</h1></a>
+            <h1 class="title hidden" id="signout" onclick="signOut()">Sign Out</h1>
+        </div>
+
+        <div class="circle" id="userButton" onclick="checkbutton()">
+            <div class="login-icon">
+                <img src="images/user.png" alt="Login">
+            </div>
+        </div>
+    </header>
+    <div class="landingpage">
+    <div class="text-box">
+        <div class="main-text">With Li Help,</div>
+        <div class="main-text">Volunteering</div>
+        <div class="main-text">is</div>
+    </div>
+    <div class="text-box-mini">
+        <div class="main-text">With Li Help, Volunteering is</div>
+    </div>
+    <div class="animation-box">  
+        <div class="animation-text" id="animation" >Quicker</div>
+    </div>
+
+<div class="slide">
+    <div class="image"><img id="slideshow" src="images/home1.png" width="100%" alt=""></div>
+</div>
+<script src="userpopout.js"></script>
+<script src="slideshow.js"></script>
+<script src="scalingfactor.js"></script>
+</div>
+</body>
+</html>

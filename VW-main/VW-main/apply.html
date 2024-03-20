@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="loginredirect.js" defer></script>
+        <link rel = "stylesheet" href = "styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="userpopout.js" defer></script>
+        <script src="login.js" defer></script>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            handleLoginState();
+        });
+        </script>
+    </head>
+<title>Featured Events</title>
+<body>
+    <header class="header">
+
+        <div class="logo"><a href="index.html"><img src="images/image3.png" alt=""></div></a>
+        <a href="apply.html" id="applyLink"><h1 class="title"><u>Apply</u></h1> </a>
+        <a href="contact.html"><h1 class="title">Contact Us</h1></a>
+
+         <div class="right-items"> 
+            <a href="userinfo.html" class="title hidden" id="update"><h1 class="title">Update Information</h1></a>
+            <a href="index.html"><h1 class="title hidden" id="signout" onclick="signOut()">Sign Out</h1></a>
+        </div>
+
+        <div class="circle" id="userButton" onclick="checkbutton()">
+            <div class="login-icon">
+                <img src="images/user.png" alt="Login">
+            </div>
+        </div>
+    </header>
+<div class = "apply-page">
+    <h1><br><br></h1>
+
+        <div id="output-container">
+        </div>
+    <script>
+            window.onload=fetchData(); 
+            async function fetchData() {
+  try {
+    const response = await fetch('https://vast-wave-12355-e83778ef23ea.herokuapp.com/events-data');
+    
+    // Check if the response is not successful (status code in the range 200-299)
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    }
+
+    const contentType = response.headers.get('content-type');
+    
+    // Check if the response is JSON
+    if (contentType && contentType.includes('application/json')) {
+      const data = await response.json();
+      displayData(data);
+    } else {
+      throw new Error('Unexpected response format: Not JSON');
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+    
+async function displayData(data) {
+    const outputContainer = document.getElementById('output-container');
+    if (data.length === 0) {
+        outputContainer.innerHTML = '<p>No data available.</p>';
+        return;
+    }
+
+    let userApplications = [];
+    const userId = localStorage.getItem('googleId');
+    if (userId) {
+        try {
+            const response = await fetch(`https://vast-wave-12355-e83778ef23ea.herokuapp.com/user-apply-data?userId=${userId}`);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+            userApplications = await response.json();
+            console.log(userApplications)
+        } catch (error) {
+            console.error('Error fetching user applications:', error);
+        }
+    }
+
+    let htmlContent = '';
+data.forEach(item => {
+    let applyText = 'Apply';
+    let applyClass = 'apply'; // Default class for 'Apply'
+    let pointerEvents = 'auto';
+
+    const application = userApplications.find(app => app.eventId === item.eventId && app.userId === userId);
+    if (application) {
+        applyText = application.status;
+        applyClass = application.status.toLowerCase(); // This will be 'pending', 'accepted', or 'denied'
+        pointerEvents = 'none';
+    }
+
+        htmlContent += `
+            <div class="event-rectangle">
+                <div class="text-wrap">
+                    <p class="text"> <b>Event:</b> ${item.eventName}</p>
+                    <p class="text"> <strong>Description:</strong> ${item.description}</p>
+                    <p class="text"> <strong>Dates:</strong> ${item.startDate} - ${item.endDate}</p>
+                    <p class="text"> <strong>Time:</strong> ${item.time}</p>
+                    <p class="text"> <strong>Location:</strong> ${item.location}</p>
+                </div>  
+            <div class="apply-box ${applyClass}" data-event-id="${item.eventId}" id="apply-${item.eventId}" alt="apply" onclick="apply(event)" style="pointer-events: ${pointerEvents};">${applyText}</div>
+        </div>`;
+});
+
+
+    outputContainer.innerHTML = htmlContent;
+}
+        
+async function checkUserApplications() {
+    console.log('Checking user applications...');
+    const userId = localStorage.getItem('googleId');
+    console.log('User ID:', userId);
+
+    if (!userId) {
+        console.log('No user ID found in localStorage.');
+        return;
+    }
+
+    try {
+        const response = await fetch(`https://vast-wave-12355-e83778ef23ea.herokuapp.com/user-apply-data?userId=${userId}`);
+        
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+
+        const userApplications = await response.json();
+        console.log('Applications found:', userApplications);
+
+        const eventElements = document.querySelectorAll('.apply-box');
+        eventElements.forEach(element => {
+            const eventId = element.getAttribute('data-event-id');
+            const application = userApplications.find(app => app.eventId === eventId && app.userId === userId);
+
+            if (application) {
+                element.innerHTML = application.status; // Display the application status
+                element.classList.add(application.status.toLowerCase()); // Add a class for styling based on status
+                element.style.pointerEvents = 'none'; // Disable further clicks if application status exists
+            } else {
+                element.innerHTML = 'Apply'; // Display 'Apply' if no application found
+                element.classList.remove('accepted', 'denied', 'pending'); // Remove any status classes
+                element.style.pointerEvents = 'auto'; // Enable clicks
+            }
+        });
+
+    } catch (error) {
+        console.error('Error checking user applications:', error);
+    }
+}
+// Set the HTML content of the container
+        outputContainer.innerHTML = htmlContent;
+    
+    let params = {}
+        let regex = /([^&=]+)=([^&]*)/g, m
+        while(m = regex.exec(location.href)){
+            params[decodeURIComponent(m[1])]=decodeURIComponent(m[2])
+        }
+        if(Object.keys(params).length > 0){
+            localStorage.setItem('authInfo', JSON.stringify(params))
+        }
+        // hide the access token
+        window.history.pushState({},document.title,"/VW/"+"apply")
+
+        function apply(event) {
+  try {
+    event.preventDefault();
+
+    // Retrieve the data-event-id attribute from the clicked element
+    const eventId = event.target.getAttribute('data-event-id');
+      console.log(eventId)
+
+    if (!eventId) {
+      throw new Error('Data-event-id attribute is undefined or null.');
+    }
+
+    // Check if the image is already applied
+    const applyBox = event.target;
+    if (applyBox.classList.contains('applied')) {
+      // If already applied, do nothing
+      return;
+    }
+
+    const formData = {
+      userId: localStorage.getItem('googleId'),
+      eventId: eventId,
+        status: 'pending',
+    };
+
+    fetch('https://vast-wave-12355-e83778ef23ea.herokuapp.com/apply', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(response => response.text())
+      .then(data => {
+        console.log('Success:', data);
+
+        // Change the image source to the "applied" image
+        applyBox.innerHTML = 'Applied';  // Assuming you have an image text or an applied message
+        applyBox.classList.add('applied');  // Add a class to mark it as applied
+        applyBox.style.pointerEvents = 'none';  // Disable click events
+
+        alert('Data submitted successfully!');
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error.message);
+        alert('Error submitting data');
+      });
+  } catch (error) {
+    console.error('Error in applyHandler:', error.message);
+  }
+}
+
+    </script>        
+</div>
+<script src="scalingfactor.js"></script>
+
+</body>
+</html>

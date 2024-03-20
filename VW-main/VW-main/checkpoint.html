@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="login.js" defer></script>
+    <title>Checkpoint</title>
+    <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        await handleLoginState();
+    });
+    </script>
+    <script>
+        async function waitForGoogleId() {
+    const checkInterval = 500; // Check every 500 milliseconds
+    return new Promise((resolve) => {
+        const intervalId = setInterval(() => {
+            const userId = localStorage.getItem('googleId');
+            if (userId) {
+                clearInterval(intervalId);
+                resolve(userId);
+            }
+        }, checkInterval);
+    });
+}
+        
+async function checkUserStatus() {
+    const userId = localStorage.getItem('googleId');
+    try {
+        let response = await fetch(`https://vast-wave-12355-e83778ef23ea.herokuapp.com/admin-check?userId=${userId}`);
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        let adminStatus = await response.json(); // Parse JSON response
+        if (adminStatus.isAdmin === true) { // Check isAdmin property
+            window.location.href = 'admin.html';
+        } else {
+            response = await fetch(`https://vast-wave-12355-e83778ef23ea.herokuapp.com/user-check?userId=${userId}`);
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            }
+            let existingUserStatus = await response.json(); // Assuming JSON response
+            if (existingUserStatus.isUser === true) {
+                console.log('Existing User');
+                window.location.href = 'apply.html';
+            } else {
+                console.log('New User');
+               window.location.href = 'userinfo.html'; // Make sure this is the correct URL
+            }
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+}
+   document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const userId = await waitForGoogleId(); // Wait for googleId to exist
+        await checkUserStatus(); // Now call checkUserStatus
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+});
+    </script>
+</head>
+<body>
+    <h1>Checking your access...</h1>
+    <!-- You can add additional HTML content here -->
+</body>
+</html>

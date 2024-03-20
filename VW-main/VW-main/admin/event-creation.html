@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel = "stylesheet" href = "/VW/myCSSStyle4.0.css">
+        <title>Event Creation</title>
+        <script src="/VW/userpopout.js" defer></script>
+    <script src="/VW/login.js" defer></script>
+                        
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        handleLoginState();
+    });
+    </script>
+    </head>
+    <body>
+    <header class="header">
+        <div class="logo"><a href = "/VW/admin.html"><img src="/VW/images/image3.png" alt=""></div></a>
+        <a href="manage-events"><h1 class="title">Manage Events</h1> </a>
+        <a href="event-creation.html"><h1 class="title"><u>Create Event</u></h1></a>
+        <div class="right-items"> 
+            <a href="userinfo.html" class="title hidden" id="update"><h1 class="title"></h1></a>
+            <h1 class="title hidden" id="signout" onclick="signOut()">Sign Out</h1>
+        </div>
+        <div class="circle" id="userButton" onclick="checkbutton()">
+            <div class="login-icon">
+                <img src="/VW/images/user.png" alt="Login">
+            </div>
+        </div>
+    </header>
+        <div class="forms">
+        <div class="form-container">
+            <form id = "myForm">
+            <div class = "eventName">
+                <input type = "text" 
+                class = "eventNameO" 
+                name = "eventName" 
+                id = "eventName" 
+                placeholder="Event Name" 
+                maxlength="30" 
+                style = "margin-left: calc(323px*var(--scaling-factor)); width: calc(346px*var(--scaling-factor));"
+                required>
+                <label for ="eventname" id ="eventNameLabel" style = "display: none; color: red; transform: translate(calc(-300px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+            </div>
+            <div class ="startDate">
+                <input type = "text"
+                class = "startDateO"
+                placeholder = "Start Date"
+                onfocus = "(this.type='date')"
+                onblur = "changeMinDate()"
+                name = "startDate"
+                id = "startDate"
+                min = ""
+                style = "margin-left: calc(716px*var(--scaling-factor)); width: calc(247px*var(--scaling-factor));"
+                required>
+                <label for ="startdate" id ="startDateLabel" style = "display: none; color: red; transform: translate(calc(-250px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+            </div>
+            <div class = "endDate">
+                <input type = "text"
+                class = "endDateO"
+                placeholder = "End Date"
+                onfocus = "(this.type='date')"
+                onblur = "setMaxDate()"
+                min = ""
+                max = ""
+                name = "endDate"
+                id = "endDate"
+                style = "margin-left: calc(1018px*var(--scaling-factor)); width: calc(272px*var(--scaling-factor));"
+                required>
+                <label for ="enddate" id ="endDateLabel" style = "display: none; color: red; transform: translate(calc(-260px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+            </div>
+            <div class = "time">
+                <input type = "text"
+                class = "timeO"
+                placeholder = "Start Time"
+                onfocus = "(this.type='time')"
+                onblur = "(this.type='text')"
+                name = "time"
+                id = "time"
+                style = "margin-left: calc(1353px*var(--scaling-factor)); width: calc(140px*var(--scaling-factor));"
+                required>
+                <label for ="Time" id ="timeLabel" style = "display: none; color: red; transform: translate(calc(40px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+            </div>
+            <div class = "location">
+                <input type = "text"
+                class = "locationO"
+                name = "location"
+                id = "location"
+                placeholder="Location"
+                maxlength="60"
+                style = "margin-left: calc(323px*var(--scaling-factor)); width: calc(909px*var(--scaling-factor));"
+                required>
+                <label for ="location" id ="locationLabel" style = "display: none; color: red; transform: translate(calc(-866px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+            </div>
+            <div class = "capacity">
+                <input type = "number"
+                class = "capacityO"
+                name = "capacity"
+                id = "capacity"
+                maxlength="1000"
+                placeholder="Capacity"
+                min = "1"
+                max = "1000"
+                style = "margin-left: calc(1291px*var(--scaling-factor)); width: calc(202px*var(--scaling-factor));"
+                required>
+                <label for ="capacity" id ="capacityLabel" style = "display: none; color: red; transform: translate(calc(-352px*var(--scaling-factor)), calc(-33px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+            </div>
+            <div class = "description">
+                <textarea class="descriptionO"
+                name="description"
+                id="description"
+                placeholder="Event Description"
+                maxlength="1000"
+                style="resize: none; margin-left: calc(323px*var(--scaling-factor)); width: calc(1171px*var(--scaling-factor)); height: calc(192px*var(--scaling-factor)); "
+                required></textarea>
+                <label for ="description" id ="descriptionLabel" style = "display: none; color: red; transform: translate(calc(-455px*var(--scaling-factor)), calc(-234px*var(--scaling-factor))); font-size: calc(22px*var(--scaling-factor));">Please enter a valid input.</label>
+            </div>
+            <div class = "button">
+                <input type = "image" src = "/VW/images/EditedSubmitButton.png" border-style="none" class = "buttonO" id = "submit" alt = "submit" style = "margin-left: calc(752px*var(--scaling-factor));">
+            </div>
+        </form>
+
+        </div>
+            <script src="/VW/eventPage.js"></script>
+                    <script src="/VW/scalingfactor.js"></script>
+    </body>
+</html>

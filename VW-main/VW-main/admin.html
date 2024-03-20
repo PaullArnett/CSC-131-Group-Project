@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="adminRedirect.js" defer></script>
+        <link rel="stylesheet" href="styles.css">
+        <title>Li Help - Admin View</title>
+        <script src="userpopout.js" defer></script>
+        <script src="login.js" defer></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                handleLoginState();
+            });
+        </script>
+    </head>
+    <body>
+        <header class="header">
+            <div class="logo">
+                <a href="admin.html">
+                    <img src="images/image3.png" alt="">
+                </a>
+            </div>
+            <a href="admin/manage-events">
+                <h1 class="title">Manage Events</h1>
+            </a>
+            <a href="admin/event-creation.html">
+                <h1 class="title">Create Event</h1>
+            </a>
+            <div class="right-items"> 
+                <a href="userinfo.html" class="title hidden" id="update">
+                    <h1 class="title"></h1>
+                </a>
+                <h1 class="title hidden" id="signout" onclick="signOut()">Sign Out</h1>
+            </div>
+            <div class="circle" id="userButton" onclick="checkbutton()">
+                <div class="login-icon">
+                    <img src="images/user.png" alt="Login">
+                </div>
+            </div>
+        </header>
+        <div class="landingpage">
+            <div class="text-box">
+                <div class="main-text">With Li Help,</div>
+                <div class="main-text">Volunteering</div>
+                <div class="main-text">is</div>
+            </div>
+            <div class="text-box-mini">
+                <div class="main-text">With Li Help, Volunteering is</div>
+            </div>
+            <div class="animation-box">  
+                <div class="animation-text" id="animation">Quicker</div>
+            </div>
+            <div class="slide">
+                <div class="image">
+                    <img id="slideshow" src="images/home1.png" width="100%" alt="">
+                </div>
+            </div>
+            <script src="userpopout.js"></script>
+            <script src="slideshow.js"></script>
+            <script src="scalingfactor.js"></script>
+        </div>
+    </body>
+</html>
